@@ -125,6 +125,29 @@ VAR ScoreColor = SWITCH(TRUE(), score >= 75, "#038C25", score >= 50, "#FFF3CD", 
 -- Score colors: >=75 green, >=50 yellow, <50 red
 ```
 
+### 6. Modular HTML Blocks (Maintainable DAX)
+
+Compose complex visuals as independent blocks, then concatenate in `RETURN`.
+
+```dax
+VAR CssBase = "<style>...</style>"
+VAR HeaderBlock = "<div class='header'>...</div>"
+VAR ChartBlock = "<svg ...>...</svg>"
+VAR FooterBlock = "<div class='footer'>...</div>"
+RETURN CssBase & HeaderBlock & ChartBlock & FooterBlock
+```
+
+This pattern keeps long DAX HTML measures readable and allows safer incremental edits.
+
+### 7. Display vs Interaction Split
+
+`htmlContent` measures are a display payload, not a reliable click-interaction surface for model filtering.
+
+If the solution requires cross-filtering by click:
+1. Keep HTML/SVG visual focused on rendering.
+2. Add a dedicated selector visual (native or Deneb) bound to the same dimension grain.
+3. Let the selector own interaction and propagate filters to all visuals.
+
 ## Guardrails
 
 1. BOM: write TMDL files as UTF-8 without BOM (see `references/tmdl-authoring-rules.md`).
@@ -136,6 +159,7 @@ VAR ScoreColor = SWITCH(TRUE(), score >= 75, "#038C25", score >= 50, "#FFF3CD", 
 7. After any TMDL edit, verify the file opens in Power BI Desktop without errors.
 8. Bar chart heights: Do NOT use `height:X%` on bar divs inside flex containers — use fixed pixel heights computed as `minPx + normalizedValue * rangePx` where `normalizedValue = (val - dataMin) / (dataMax - dataMin)`. Set a fixed px height on the chart container.
 9. Full-height card fill: Use `display:flex;flex-direction:column` on the outer container with `height:100%;box-sizing:border-box`. Use `justify-content:space-between` to push sections apart vertically.
+10. Do not emulate interactivity with script-like HTML behavior. For real cross-filtering, use a separate selector-capable visual.
 
 ## Bar Chart Pattern (Fixed Pixel Heights)
 

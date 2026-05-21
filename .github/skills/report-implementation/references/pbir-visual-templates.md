@@ -20,6 +20,7 @@ This document provides validated starter templates for Power BI Report (PBIR) `v
 9. `definition/pages/pages.json` is part of the canonical PBIR report surface and MUST be updated together with page folder creation/removal.
 10. When a new PBIR rule is learned from Desktop output or Microsoft schema inspection and it is not report-specific, record it in this reference or the PBIP structure reference before finishing the task.
 11. Visual-level filtering MUST use top-level `filterConfig.filters`; `visual.filters` is schema-invalid and rejected by Desktop.
+12. For Deneb visuals requiring click cross-filtering, ensure `objects.vega.properties.enableSelection = true`, keep selector grain in `dataset.projections`, and prefer an overlay selector mark when visible marks have low hit-area.
 
 ---
 

@@ -145,6 +145,31 @@ When `enableSelection` is true, handle `__selected__` (`"on"`, `"off"`, `"neutra
 ]
 ```
 
+### Overlay Selector Pattern (Reliable Click Target)
+
+If the visible mark has a small hit area (thin lines, compact points) or heavy transforms, add a transparent selector layer at the same grain.
+
+```json
+{
+  "layer": [
+    {
+      "mark": {"type": "line", "tooltip": true},
+      "encoding": {"x": {"field": "Date"}, "y": {"field": "Value"}}
+    },
+    {
+      "mark": {"type": "point", "opacity": 0.001, "size": 320},
+      "encoding": {
+        "x": {"field": "Date"},
+        "y": {"field": "Value"},
+        "detail": {"field": "Category"}
+      }
+    }
+  ]
+}
+```
+
+Use this together with PBIR `enableSelection: true` and keep selector fields present in `dataset.projections`.
+
 ### Cross-Highlighting
 
 Use layered marks — background at reduced opacity, foreground shows `<field>__highlight` values.

@@ -212,3 +212,14 @@ Cross-filtering and tooltips with full PBIR literal encoding:
   }]
 }
 ```
+
+## Selection-Ready Container Contract (Cross-Filter Safe)
+
+For reliable cross-filtering behavior in report pages, keep this minimum contract:
+
+1. `enableSelection` is explicitly `true` under `objects.vega[0].properties`.
+2. `drillFilterOtherVisuals` is present inside `visual`.
+3. `dataset.projections` includes the identity/category field used as selector grain (not only transformed derivatives).
+4. The Vega/Vega-Lite selector layer references the same field names exposed by `nativeQueryRef`.
+
+If the visible layer is difficult to click, add a transparent overlay selector mark instead of forcing interaction through decorative layers.
